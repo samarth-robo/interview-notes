@@ -1,0 +1,21 @@
+\section{Homogeneous Coordinates} \label{sec:3d_geom/homo_coords}
+$\homo{x} = [u, v, 1]$
+
+\section{Types of Transforms} \label{sec:3d_geom/transforms}
+
+Table~\ref{tab:transform_types} shows the types of transforms on 2D homogeneous coordinates. Each transform preserves all the quantities in its row and above it.
+
+\begin{table}
+\centering
+\begin{tabular}{c|c|c}
+Transform & DoF & Preserves\\
+\hline
+Rotation & 1 & \\
+Translation & 2 & \\
+Similarity & 4 & angles \\
+Affine & 6 & parallel lines \\
+Projective & 8 & ratios of distances\\
+\end{tabular}
+\caption{Types of transforms on 2D homogeneous coordinates}
+\label{tab:transform_types}
+\end{table}
