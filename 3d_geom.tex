@@ -1,17 +1,22 @@
+\chapter{3D Geometry} \label{chap:3d_geom}
+
 \section{Homogeneous Coordinates} \label{sec:3d_geom/homo_coords}
-$\homo{x} = [u, v, 1]$
+The homogeneous representation of an image point $\mathbf{x} = [u, v]$ is denoted as $\homo{x} = [u, v, 1]$. A line in the image passing through \homo{x_1} and \homo{x_2}
+is $\homo{l} = \homo{x_1} \times \homo{x_2}$.
+
+\section{Pl\"ucker Coordinates}
 
 \section{Types of Transforms} \label{sec:3d_geom/transforms}
 
-Table~\ref{tab:transform_types} shows the types of transforms on 2D homogeneous coordinates. Each transform preserves all the quantities in its row and above it.
+Table~\ref{tab:transform_types} shows the types of transforms on 2D homogeneous coordinates. Each transform preserves all the quantities in its row and below it.
 
-\begin{table}
+\begin{table}[h!]
 \centering
 \begin{tabular}{c|c|c}
 Transform & DoF & Preserves\\
 \hline
-Rotation & 1 & \\
-Translation & 2 & \\
+Translation & 2 & absolute orientation \\
+Rotation & 1 & distances \\
 Similarity & 4 & angles \\
 Affine & 6 & parallel lines \\
 Projective & 8 & ratios of distances\\
@@ -19,3 +24,34 @@ Projective & 8 & ratios of distances\\
 \caption{Types of transforms on 2D homogeneous coordinates}
 \label{tab:transform_types}
 \end{table}
+
+\section{Single View Geometry}
+
+If the transformation from world to camera coordinates is $^cT_w = \begin{bmatrix}R & t \\0 & 1 \end{bmatrix}$, the pinhole camera projection equation is
+\begin{equation}
+\homo{x} = K [R | t] \homo{^wX}
+\end{equation}
+where $\homo{X}$ is the homogeneous representation of the 3D point in world coordinates, and
+\begin{equation}
+K = \begin{bmatrix}
+f_x & 0   & c_x\\
+0   & f_y & c_y\\
+0   & 0   & 1
+\end{bmatrix}
+\end{equation}
+is the ideal pinhole camera intrinsics matrix. $P = K[R | t]$ is called the camera projection matrix.
+
+\subsection{Dissecting the Camera Projection Matrix}
+Let's denote the columns of P as $P = [P_1 | P_2 | P_3 | P_4]$. Now, $P_1 = P \begin{bmatrix}1\\0\\0\\0\end{bmatrix}$. Hence $P_1$ is the image of vanishing point in the world
+coordinate X direction. Similarly for $P_2$ and $P_3$. $P_4$ is the image of the world origin.
+
+Let's denote the rows of P as $P = \begin{bmatrix}P_1^T\\P_2^T\\P_3^T\end{bmatrix}$. Since $P_1^T = \begin{bmatrix}1 & 0 & 0\end{bmatrix}P$, $P_1^T$ is the plane passing 
+through the camera center and the image line $[1, 0, 0]$. To see this, consider a projected point $\homo{x} = P \homo{X}$. \homo{x} lies on the image line \homo{l} iff
+\begin{align}
+\homo{l}^T\homo{x} &= 0\\
+\iff \homo{l}^TP\homo{X} &= 0\\
+\iff (P^T\homo{l})^T\homo{X} &= 0
+\end{align}
+Thus the plane corresponding to image line \homo{l} is $P^T\homo{l}$.
+
+\subsubsection{Representing lines with Pl\"ucker coordinates}
