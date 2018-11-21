@@ -55,3 +55,36 @@ through the camera center and the image line $[1, 0, 0]$. To see this, consider 
 Thus the plane corresponding to image line \homo{l} is $P^T\homo{l}$.
 
 \subsubsection{Representing lines with Pl\"ucker coordinates}
+
+\section{2-view Geometry}
+
+\section{Multi-view Geometry}
+
+\subsection{Panoramas}
+The simplest panorama stitching can be done by modeling the camera motion between images as a 2D planar homography. This model holds true for two cases:
+\begin{itemize}
+\item \textbf{Planar scene}. w.l.o.g. we can choose the world coordinates such that the scene is on the XY plane. The camera projection equation becomes:
+\begin{align}
+\homo{x}
+&= P \homo{X}\\
+&= \begin{bmatrix} P1 & P2 & P3 & P4\end{bmatrix} \begin{bmatrix} X\\Y\\0\\1 \end{bmatrix}\\
+&= \begin{bmatrix} P1 & P2 & P4\end{bmatrix} \begin{bmatrix} X\\Y\\1 \end{bmatrix}
+\end{align}
+which is a homography. Since the transformations from all world points to image points are homographies, the camera motions between image frames are also homographies.
+\item \textbf{In-place rotation}. Suppose the camera moves by a rotation $R$ between two images. The image locations of a 3D point \homo{X} are w.l.o.g.
+\begin{align}
+\homo{x}_1
+&= K[I | 0]\homo{X}\\
+&= KX
+\end{align}
+and
+\begin{align}
+\homo{x}_2
+&= K[R | 0]\homo{X}\\
+&= KRX\\
+&= KRK^{-1}KX\\
+&= KRK^{-1}\homo{x}_1
+\end{align}
+Thus, the relationship between $\homo{x}_1$ and $\homo{x}_2$ is a homography $H=KRK^{-1}$.
+\end{itemize}
+This is why smartphone panorama apps advise you to rotate in place while capturing a panorama.
